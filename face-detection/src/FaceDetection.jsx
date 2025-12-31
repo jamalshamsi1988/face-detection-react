@@ -5,6 +5,8 @@ import { useEffect, useRef } from "react";
 const FaceDetection = () => {
   const videoRef = useRef();
   const canvasRef = useRef();
+   
+  // 1️⃣ لود مدل‌ها
 
   useEffect(() => {
     loadModels();
@@ -23,11 +25,15 @@ const FaceDetection = () => {
     startVideo();
   };
 
+  // 2️⃣ دسترسی به وبکم
+
   const startVideo = () => {
     navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
       videoRef.current.srcObject = stream;
     });
   };
+
+  // 3️⃣ تشخیص چهره
 
   const handleVideoPlay = () => {
     setInterval(async () => {
@@ -87,7 +93,7 @@ const FaceDetection = () => {
 
         <canvas
           ref={canvasRef}
-          style={{ position: "absolute", top: 0, left: 0 }}
+          style={{ position: "absolute", right:0,button:0 }}
         />
       </div>
     </div>

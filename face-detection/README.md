@@ -1,16 +1,118 @@
-# React + Vite
+🧱 قدم ۱: ساخت پروژه React
+npx create-react-app face-detection-react
+cd face-detection-react
+npm start
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+📦 قدم ۲: نصب کتابخانه تشخیص چهره
+npm install face-api.js
 
-Currently, two official plugins are available:
+📁 قدم ۳: اضافه کردن مدل‌های هوش مصنوعی
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+داخل پوشه public یک پوشه بساز:
 
-## React Compiler
+public/models
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+مدل‌ها رو از این لینک دانلود کن و داخلش بذار 👇
+https://github.com/jamalshamsi1988/face-detection-react/tree/main/face-detection/public/models
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🧠 قدم ۴: ساخت کامپوننت FaceDetection
+
+داخل src فایل زیر رو بساز:
+
+src/FaceDetection.jsx
+
+🧩 قدم ۵: استفاده از کامپوننت در App.js
+import FaceDetection from "./FaceDetection";
+
+
+🧠 توضیح مفهومی (خیلی مهم)
+🔹 useRef
+const videoRef = useRef();
+برای دسترسی مستقیم به تگ <video> (وبکم)
+
+🔹 loadModels
+
+مدل‌های هوش مصنوعی رو از پوشه public/models لود می‌کنه
+بدون این مرحله هیچ تشخیصی انجام نمی‌شه
+
+🔹 getUserMedia
+navigator.mediaDevices.getUserMedia({ video: true })
+
+اجازه دسترسی به وبکم از مرورگر
+
+🔹 detectAllFaces
+faceapi.detectAllFaces(video, options)
+
+پیدا کردن چهره‌ها
+
+سریع و مناسب Real-time
+
+🔹 Canvas
+
+Canvas روی ویدیو قرار می‌گیره و:
+
+کادر چهره
+
+نقاط صورت
+رو رسم می‌کنه
+
+✅ نتیجه
+
+🎥 وبکم روشن
+🧠 تشخیص چهره زنده
+📦 بدون بک‌اند
+⚡ اجرا داخل مرورگر
+
+🧠 توضیح مهم بخش‌های جدید
+🔹 withFaceExpressions()
+.withFaceExpressions()
+
+
+احساسات رو به صورت درصد تشخیص می‌ده:
+
+happy
+
+sad
+
+angry
+
+surprised
+
+neutral
+
+fearful
+
+disgusted
+
+📌 مثلا:
+
+expressions.happy = 0.92
+
+🔹 withAgeAndGender()
+.withAgeAndGender()
+
+
+age → عدد تقریبی سن
+
+gender → male / female
+
+genderProbability → دقت تشخیص
+
+📌 سن کاملاً تخمینیه (±5 سال طبیعی)
+
+🔹 رسم متن روی صورت
+new faceapi.draw.DrawTextField(
+  ["25 سال - male"],
+  box.bottomLeft
+).draw(canvas);
+
+
+برای نمایش اطلاعات کنار صورت استفاده می‌شه
+
+📊 نکات دقت و عملکرد
+
+✔ نور خوب = دقت بالا
+✔ دوربین جلو بهتر از وبکم ضعیف
+❌ ماسک و عینک = دقت کمتر
+❌ صورت چرخیده = تشخیص سخت‌تر
