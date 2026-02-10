@@ -93,7 +93,7 @@ const FaceDetection = () => {
 
         <canvas
           ref={canvasRef}
-          style={{ position: "absolute", right:0,button:0 }}
+          style={{ position: "absolute", right:60,button:0 }}
         />
       </div>
     </div>
